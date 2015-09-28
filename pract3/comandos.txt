@@ -1,0 +1,3 @@
+Ejercicio 6:	cat /proc/cpuinfo | grep "processor\|cpu MHz"
+Ejercicio 7:	cat /proc/cpuinfo | grep "processor\|cache size"
+Ejercicio 12:	awk '/root/ { print }' /etc/passwd

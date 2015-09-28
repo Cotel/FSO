@@ -1,0 +1,32 @@
+#!/bin/bash
+# borrar_fichero
+
+check=0
+
+for i in *
+do
+	# echo $i
+	if [ $i = $1 ]
+	then
+		if test -d $1
+		then
+			check=1
+		else
+			check=2
+		fi
+	fi
+done
+
+if test $check -eq 0
+then
+	echo $1 no ha sido encontrado
+elif test $check -eq 1
+then
+	echo $1 es un directorio!
+elif test $check -eq 2
+then
+	$(rm $1)
+	echo $1 eliminado!
+fi
+
+

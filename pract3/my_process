@@ -1,0 +1,10 @@
+#!/bin/bash
+# my_process
+
+process=$(ps u | grep $USER | wc -l)
+if test $process -gt 2
+then
+echo "More than 2 user process"
+else
+echo "Few process"
+fi
