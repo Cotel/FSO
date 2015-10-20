@@ -66,8 +66,8 @@ int main() {
     pthread_attr_init(&attrib);
 
     // Crear un hilo que dibuje cada columna
-    for(col=0; col<COLUMNS; col++) {
-        pthread_create(&draw_thread[col], &attrib, DrawCol, (void*) (long)&col);
+    for(col=0; col<=COLUMNS; col++) {
+        pthread_create(&draw_thread[col], &attrib, DrawCol, (long)col);
     }
 
     // Crear un hilo que refresque la pantalla
@@ -77,7 +77,7 @@ int main() {
     for(col=0; col<COLUMNS; col++){
         pthread_join(draw_thread[col], NULL);
     }
-    pthread_join(refresh_thread, NULL);
+    //pthread_join(refresh_thread, NULL);
 
     write(1, "\033[0m\033[?25h\r",11);
 }
