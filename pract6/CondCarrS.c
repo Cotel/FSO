@@ -23,7 +23,8 @@
 */
 
 long int V = 100;      // Valor inicial
-int llave = 0;
+
+sem_t sem;
 
 /*
    FUNCIONES AUXILIARES
@@ -53,15 +54,16 @@ void *agrega (void *argumento) {
 
   long int cont;
   long int aux;
-
+  
+  sem_wait(&sem);
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux=V;
-    aux=aux+1;
-    usleep(500);
-    V=aux;
-    llave = 0;
+      aux=V;
+      aux=aux+1;
+      usleep(500);
+      V=aux;
   }
+  sem_post(&sem);
+ 
   printf("-------> Fin AGREGA (V = %ld)\n", V);
   pthread_exit(0);
 }
@@ -71,15 +73,14 @@ void *resta (void *argumento) {
   long int cont;
   long int aux;
 
+  sem_wait(&sem);
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux =V;
-    aux=aux-1;
-    usleep(500);
-    V=aux;
-    llave = 0;
-
+        aux=V;
+        aux=aux-1;
+        usleep(500);
+        V=aux;
   }
+  sem_post(&sem);
 
   printf("-------> Fin RESTA  (V = %ld)\n", V);
   pthread_exit(0);
@@ -100,6 +101,7 @@ int main (void) {
   //Declaracion de las variables necesarias.
     pthread_t hiloSuma, hiloResta, hiloInspeccion;
     pthread_attr_t attr;
+    sem_init(&sem, 0, 1);
 
   // Definimos el valor de los atributos de las tareas (por defecto)
     pthread_attr_init(&attr);
@@ -118,4 +120,3 @@ int main (void) {
   fprintf(stderr, "-------> VALOR FINAL: V = %ld\n\n", V);
   exit(0);
 }
-

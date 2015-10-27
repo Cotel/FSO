@@ -1,4 +1,3 @@
-
 /*                                                                      */
 /*  CondCarr.c (Observacion de condiciones de carrera y soluciones)     */
 /*  Fundamentos de los Sistemas Operativos  (sesion 6)                  */
@@ -17,7 +16,7 @@
     REPETICIONES : Numero de veces que se suma/resta 1 a V
 */
 
-#define REPETICIONES      20000000 // 20000000 inicialmente
+#define REPETICIONES      1000 // 20000000 inicialmente
 
 /*
    VARIABLES GLOBALES (COMPARTIDAS)
@@ -55,11 +54,10 @@ void *agrega (void *argumento) {
   long int aux;
 
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-
-
-      V = V + 1;
-
-
+	aux=V;
+	aux=aux+1;
+	usleep(500);
+	V=aux;
   }
   printf("-------> Fin AGREGA (V = %ld)\n", V);
   pthread_exit(0);
@@ -71,9 +69,10 @@ void *resta (void *argumento) {
   long int aux;
 
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-
-        V = V - 1;
-
+	aux=V;
+	aux=aux-1;
+	usleep(500);
+	V=aux;
   }
 
   printf("-------> Fin RESTA  (V = %ld)\n", V);

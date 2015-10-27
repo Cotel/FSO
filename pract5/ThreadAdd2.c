@@ -48,14 +48,14 @@ int main() {
     for(i=0; i<NUMROWS; i+=CORES) {
         for(j=0; j<CORES; j++)
             pthread_create(&threads[j], &attrib, AddRow, &matrix[i+j]);
-            usleep(20000);
-        // for(j=0; j<CORES; j++)
-        //     pthread_join(threads[j], NULL);
+          //  usleep(20000);
+         for(j=0; j<CORES; j++)
+            pthread_join(threads[j], NULL);
     }
 
     for(i=0; i<CORES; i++) {
-        //for(j=0; j<CORES; j++)
-        pthread_join(threads[i], NULL);
+        for(j=0; j<CORES; j++)
+            pthread_join(threads[i], NULL);
     }
 
     //Ejercicio2.b

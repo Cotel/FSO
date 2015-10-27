@@ -1,9 +1,3 @@
-//  matrix_basic.c
-//
-//
-//  Created by Josep Dols on 19/10/15.
-//
-//
 
 #include <stdio.h>
 #include <stdlib.h>

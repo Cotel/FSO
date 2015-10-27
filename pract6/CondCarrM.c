@@ -23,8 +23,7 @@
 */
 
 long int V = 100;      // Valor inicial
-int llave = 0;
-
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 /*
    FUNCIONES AUXILIARES
    test_and_set(int * objetivo) : devuelve 1 (cierto) si llave esta siendo utilizada,
@@ -54,14 +53,15 @@ void *agrega (void *argumento) {
   long int cont;
   long int aux;
 
+  pthread_mutex_lock(&mutex);
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux=V;
-    aux=aux+1;
-    usleep(500);
-    V=aux;
-    llave = 0;
+      aux=V;
+      aux=aux+1;
+      usleep(500);
+      V=aux;
   }
+  pthread_mutex_unlock(&mutex);
+
   printf("-------> Fin AGREGA (V = %ld)\n", V);
   pthread_exit(0);
 }
@@ -71,15 +71,14 @@ void *resta (void *argumento) {
   long int cont;
   long int aux;
 
+  pthread_mutex_lock(&mutex);
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux =V;
-    aux=aux-1;
-    usleep(500);
-    V=aux;
-    llave = 0;
-
+      aux=V;
+      aux=aux-1;
+      usleep(500);
+      V=aux;
   }
+  pthread_mutex_unlock(&mutex);
 
   printf("-------> Fin RESTA  (V = %ld)\n", V);
   pthread_exit(0);
@@ -118,4 +117,3 @@ int main (void) {
   fprintf(stderr, "-------> VALOR FINAL: V = %ld\n\n", V);
   exit(0);
 }
-

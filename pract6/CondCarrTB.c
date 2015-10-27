@@ -16,7 +16,7 @@
     REPETICIONES : Numero de veces que se suma/resta 1 a V
 */
 
-#define REPETICIONES      1000 // 20000000 inicialmente
+#define REPETICIONES      20000000 // 20000000 inicialmente
 
 /*
    VARIABLES GLOBALES (COMPARTIDAS)
@@ -54,14 +54,12 @@ void *agrega (void *argumento) {
   long int cont;
   long int aux;
 
+  while(test_and_set(&llave));
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux=V;
-    aux=aux+1;
-    usleep(500);
-    V=aux;
-    llave = 0;
+    V = V + 1;
   }
+  llave = 0;
+
   printf("-------> Fin AGREGA (V = %ld)\n", V);
   pthread_exit(0);
 }
@@ -71,15 +69,11 @@ void *resta (void *argumento) {
   long int cont;
   long int aux;
 
+  while(test_and_set(&llave));
   for (cont = 0; cont < REPETICIONES; cont = cont + 1) {
-    while(test_and_set(&llave));
-    aux =V;
-    aux=aux-1;
-    usleep(500);
-    V=aux;
-    llave = 0;
-
+    V = V - 1;
   }
+  llave = 0;
 
   printf("-------> Fin RESTA  (V = %ld)\n", V);
   pthread_exit(0);
